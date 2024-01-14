@@ -8,28 +8,27 @@ class UserController {
     }
 
     async handleGetUser(req, res) {
-        const userId = req.params.id;
-        const userDTO = await this.userService.getUser(userId);
+        const nickname = req.params.nickname;
+        const userDTO = await this.userService.getUser(nickname);
         return res.status(StatusCodes.OK).json(userDTO);
     }
 
     async handleCreateUser(req, res) {
         const userReqDTO = req.body;
-        console.log(this);
         const userResDTO = await this.userService.createUser(userReqDTO);
         return res.status(StatusCodes.CREATED).json(userResDTO);
     }
 
     async handleUpdateUser(req, res) {
-        const userId = req.params.id;
+        const nickname = req.params.nickname;
         const userReqDTO = req.body;
-        await this.userService.updateUser(userId, userReqDTO);
+        await this.userService.updateUser(nickname, userReqDTO);
         return res.json({message: "회원 정보가 수정되었습니다."});
     }
     
     async handleDeleteUser(req, res) {
-        const userId = req.params.id;
-        await this.userService.deleteUser(userId);
+        const nickname = req.params.nickname;
+        await this.userService.deleteUser(nickname);
         return res.json({message: "삭제되었습니다."});
     }
 };

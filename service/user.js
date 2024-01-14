@@ -6,9 +6,9 @@ class UserService {
         this.userModel = container.get("UserModel");
     }
 
-    async getUser(userId) {
+    async getUser(nickname) {
         const user = await this.userModel.findOne({
-            id: userId,
+            where: {nickname},
         });
 
         if (!user) throw new NotFound("회원을 찾을 수 없습니다.");
@@ -25,7 +25,7 @@ class UserService {
     }
 
     async createUser(userDTO) {
-        const foundUser = await this.userModel.findOne({nickname: userDTO.nickname});
+        const foundUser = await this.userModel.findOne({ where: { nickname: userDTO.nickname } });
         if (foundUser) throw new Conflict("해당 닉네임이 이미 존재합니다.");
         const user = await this.userModel.create(userDTO);
         const userResDTO = {
@@ -38,24 +38,23 @@ class UserService {
         return userResDTO;
     }
 
-    async updateUser(userId, userDTO) {
+    async updateUser(nickname, userDTO) {
         const affected = await this.userModel.update({
             nickname: userDTO.nickname,
             password: userDTO.password,
         }, {
-            where: {id: userId},
+            where: {nickname},
         });
-
-        console.log(affected);
 
         if (!affected[0]) throw new NotFound("회원 정보 수정에 실패했습니다.");
 
         return affected;
     }
 
-    async deleteUser(userId) {
-        const result = await this.userModel.destroy({ where: {id: userId} });
-        if (!result) throw new NotFound("회원 삭제에 실패했습니다.");
+    async deleteUser(nickname) {
+        const foundUser = await this.userModel.findOne({ where: { nickname } });
+        if (!foundUser) throw new NotFound("회원 삭제에 실패했습니다.");
+        const result = await this.userModel.destroy({ where: {id: foundUser.id} });
         return result;
     }
 };

@@ -4,6 +4,7 @@ require("express-async-errors");
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const { sequelize } = require("./models");
 const { notFoundHandler, errorHandler } = require("./middleware/error-handler");
 const webSocket = require("./socket/socket");
@@ -27,10 +28,12 @@ sequelize.sync({ force: true })
 
 app.use(morgan("dev"));
 app.use(cors()); // front와 맞출 때 cors 설정 필요
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // router
+app.use("/api/auth", require("./router/auth"));
 app.use("/api/user", require("./router/user"));
 
 // error handler
