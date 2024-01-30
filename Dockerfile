@@ -10,10 +10,6 @@ COPY ./package.json .
 
 RUN npm i
 
-RUN npx sequelize init
-
-RUN npx sequelize db:create
-
 COPY . .
 
 CMD ["npm", "start"]

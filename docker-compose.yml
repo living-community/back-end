@@ -1,11 +1,15 @@
 version: "3"
 
-backend:
+services:
   db:
     image: mysql:latest
     container_name: db
     env_file:
       - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_DATABASE: '${DATABASE}'
+      MYSQL_PASSWORD: '${DB_PASSOWRD}'
     ports:
       - "3306:3306"
     networks:
@@ -13,6 +17,8 @@ backend:
   server:
     build: .
     restart: unless-stopped
+    links:
+      - db
     depends_on:
       - db
     ports:
