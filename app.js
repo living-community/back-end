@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 3000;
 
 const app = express();
 
-sequelize.sync({ force: true })
+sequelize.sync({ force: false })
     .then(() => {
         console.log("Database Connected");
     })
@@ -35,6 +35,7 @@ app.use(express.urlencoded({ extended: false }));
 // router
 app.use("/api/auth", require("./router/auth"));
 app.use("/api/user", require("./router/user"));
+app.use("/api/post", require("./router/post"));
 
 // error handler
 app.use(notFoundHandler);

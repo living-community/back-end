@@ -3,14 +3,12 @@ const { StatusCodes } = require("http-status-codes");
 class UserController {
     constructor(container) {
         this.userService = container.get("UserService");
-        console.log(this.userService);
-        console.log(this);
     }
 
     async handleGetUser(req, res) {
         const nickname = req.params.nickname;
         const userDTO = await this.userService.getUser(nickname);
-        return res.status(StatusCodes.OK).json(userDTO);
+        return res.json(userDTO);
     }
 
     async handleCreateUser(req, res) {

@@ -13,8 +13,8 @@ class AuthController {
             if (!userId)
                 throw new Unauthorized("권한이 없습니다.");
             const { accessToken, refreshToken } = await this.authService.generateTokens(userId, this.config);
-            res.cookies.authorization = accessToken;
-            res.cookies.refresh = refreshToken;
+            res.cookie("authorization", accessToken, { httpOnly: true });
+            res.cookie("refresh", refreshToken, { httpOnly: true });
         }
         return next();
     }

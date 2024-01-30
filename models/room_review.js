@@ -28,7 +28,6 @@ class RoomReview extends Sequelize.Model {
 
     static associate(db) {
         db.RoomReview.belongsTo(db.User);
-        db.RoomReview.belongsTo(db.Building);
     }
 };
 

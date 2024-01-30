@@ -21,8 +21,11 @@ class AuthService {
     async verifyRefreshToken(token, key) {
         try {
             const decoded = jwt.verify(token, key);
-            const userId = await this.tokenModel.findOne({ where: { token } });
-            return userId;
+            const tokenInfo = await this.tokenModel.findOne({ 
+                attributes: ["UserId"],
+                where: { content: token }, 
+            });
+            return tokenInfo.UserId;
         } catch {
             return null;
         }
