@@ -29,6 +29,10 @@ class PostService {
 
     async getPost(postId) {
         const post = await this.postModel.findOne({
+            include: {
+                model: this.userModel,
+                attributes: ["nickname"],
+            },
             where: {id: postId},
         });
 
