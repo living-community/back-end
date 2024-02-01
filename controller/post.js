@@ -23,6 +23,7 @@ class PostController {
 
     async handleCreatePost(req, res) {
         const postDTO = req.body;
+        console.log(postDTO);
         const post = await this.postService.createPost(postDTO);
         return res.status(StatusCodes.CREATED).json(post);
     }
